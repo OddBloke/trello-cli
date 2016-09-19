@@ -42,3 +42,27 @@ def list(ctx, board_name):
             break
     for l in matching_board.all_lists():
         print(l.name)
+
+
+@main.group()
+def cards():
+    pass
+
+
+@cards.command()  # NOQA
+@click.argument('board-name')
+@click.argument('list-name')
+@click.pass_context
+def list(ctx, board_name, list_name):
+    matching_board = None
+    for board in ctx.obj['client'].list_boards():
+        if board.name == board_name:
+            matching_board = board
+            break
+    matching_list = None
+    for l in matching_board.all_lists():
+        if l.name == list_name:
+            matching_list = l
+            break
+    for card in matching_list.list_cards():
+        print(card.name)
