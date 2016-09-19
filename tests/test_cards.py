@@ -48,3 +48,23 @@ def test_nice_error_given_for_missing_board(tmpdir, mocker):
         main, ['cards', 'list', 'nonexistent', 'irrelevant'])
     assert result.exit_code > 0
     assert 'Traceback' not in result.output
+
+
+def test_nice_error_given_for_missing_list(tmpdir, mocker):
+    trello_client_mock = mocker.patch('trello_cli.get_authd_trello_from_file')
+
+    board_names = ['eggs', 'spam', 'ham']
+    board_mocks = utils.add_boards_to_mock(
+        mocker, trello_client_mock, board_names)
+
+    interesting_board_index = 1
+    list_names = []
+    board_mock = board_mocks[1]
+    utils.add_lists_to_board_mock(mocker, board_mock, list_names)
+
+    runner = CliRunner()
+    result = runner.invoke(
+        main, ['cards', 'list',
+               board_names[interesting_board_index], 'nonexistent'])
+    assert result.exit_code > 0
+    assert 'Traceback' not in result.output

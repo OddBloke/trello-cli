@@ -33,6 +33,13 @@ def _get_board(client, board_name):
     raise click.ClickException('No board named "{}" found.'.format(board_name))
 
 
+def _get_list(board, list_name):
+    for l in board.all_lists():
+        if l.name == list_name:
+            return l
+    raise click.ClickException('No list named "{}" found.'.format(list_name))
+
+
 @main.group()
 def lists():
     pass
@@ -58,10 +65,6 @@ def cards():
 @click.pass_context
 def list(ctx, board_name, list_name):
     matching_board = _get_board(ctx.obj['client'], board_name)
-    matching_list = None
-    for l in matching_board.all_lists():
-        if l.name == list_name:
-            matching_list = l
-            break
+    matching_list = _get_list(matching_board, list_name)
     for card in matching_list.list_cards():
         print(card.name)
