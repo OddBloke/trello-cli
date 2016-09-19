@@ -1,5 +1,4 @@
 import uuid
-from tempfile import TemporaryDirectory
 
 from trello_cli import auth
 
@@ -17,7 +16,8 @@ def test_contents_of_ini_file_passed_to_client(tmpdir, mocker):
     client = auth.get_authd_trello_from_file(str(creds))
 
     assert client == mocked_client.return_value
-    assert [mocker.call(api_key=api_key, token=token)] == mocked_client.call_args_list
+    assert ([mocker.call(api_key=api_key, token=token)]
+            == mocked_client.call_args_list)
 
 
 def test_none_returned_if_file_doesnt_exist(tmpdir):

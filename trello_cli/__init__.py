@@ -31,7 +31,7 @@ def lists():
     pass
 
 
-@lists.command()
+@lists.command()  # NOQA
 @click.argument('board-name')
 @click.pass_context
 def list(ctx, board_name):
@@ -40,5 +40,5 @@ def list(ctx, board_name):
         if board.name == board_name:
             matching_board = board
             break
-    for l in board.all_lists():
+    for l in matching_board.all_lists():
         print(l.name)
