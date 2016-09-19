@@ -12,7 +12,7 @@ dependencies = [
 setup(
     name='trello-cli',
     version='0.1.0',
-    license='GPLv3',
+    license='AGPLv3',
     author='Daniel Watkins',
     author_email='daniel@daniel-watkins.co.uk',
     description='',
