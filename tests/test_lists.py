@@ -14,8 +14,7 @@ def test_lists_list_includes_all_returned_list_names(tmpdir, mocker):
     interesting_board_index = 1
     list_names = ['foo', 'bar', 'baz']
     board_mock = board_mocks[interesting_board_index]
-    board_mock.all_lists.return_value = [
-        mocker.Mock(name=name) for name in list_names]
+    utils.add_lists_to_board_mock(mocker, board_mock, list_names)
 
     runner = CliRunner()
     result = runner.invoke(
