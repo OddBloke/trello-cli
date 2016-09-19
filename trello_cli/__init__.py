@@ -24,3 +24,21 @@ def boards():
 def list(ctx):
     for board in ctx.obj['client'].list_boards():
         print(board.name)
+
+
+@main.group()
+def lists():
+    pass
+
+
+@lists.command()
+@click.argument('board-name')
+@click.pass_context
+def list(ctx, board_name):
+    matching_board = None
+    for board in ctx.obj['client'].list_boards():
+        if board.name == board_name:
+            matching_board = board
+            break
+    for l in board.all_lists():
+        print(l.name)
