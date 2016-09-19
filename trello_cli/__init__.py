@@ -40,6 +40,9 @@ def list(ctx, board_name):
         if board.name == board_name:
             matching_board = board
             break
+    else:
+        raise click.ClickException(
+            'No board named "{}" found.'.format(board_name))
     for l in matching_board.all_lists():
         print(l.name)
 

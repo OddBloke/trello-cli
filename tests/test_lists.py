@@ -23,3 +23,15 @@ def test_lists_list_includes_all_returned_list_names(tmpdir, mocker):
     assert result.exit_code == 0
     for name in list_names:
         assert name in result.output
+
+
+def test_nice_error_given_for_missing_board(tmpdir, mocker):
+    trello_client_mock = mocker.patch('trello_cli.get_authd_trello_from_file')
+
+    board_names = ['eggs', 'spam', 'ham']
+    utils.add_boards_to_mock(mocker, trello_client_mock, board_names)
+
+    runner = CliRunner()
+    result = runner.invoke(main, ['lists', 'list', "nonexistent"])
+    assert result.exit_code > 0
+    assert 'Traceback' not in result.output
