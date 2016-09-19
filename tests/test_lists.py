@@ -1,18 +1,15 @@
 from click.testing import CliRunner
 
 from trello_cli import main
+from tests import utils
 
 
 def test_lists_list_includes_all_returned_list_names(tmpdir, mocker):
     trello_client_mock = mocker.patch('trello_cli.get_authd_trello_from_file')
 
     board_names = ['eggs', 'spam', 'ham']
-    board_mocks = []
-    for name in board_names:
-        board_mock = mocker.Mock()
-        board_mock.name = name
-        board_mocks.append(board_mock)
-    trello_client_mock.return_value.list_boards.return_value = board_mocks
+    board_mocks = utils.add_boards_to_mock(
+        mocker, trello_client_mock, board_names)
 
     interesting_board_index = 1
     list_names = ['foo', 'bar', 'baz']
